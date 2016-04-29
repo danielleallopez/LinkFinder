@@ -1,6 +1,7 @@
 package com.dleal.linkfinder.di.modules;
 
 import com.dleal.linkfinder.component.LinkFinderApplication;
+import com.dleal.linkfinder.model.mapper.WebLinkMapper;
 import com.dleal.linkfinder.utils.ConnectivityUtils;
 
 import javax.inject.Singleton;
@@ -22,5 +23,9 @@ public class ApplicationModule {
 
     @Provides @Singleton public ConnectivityUtils connectivityUtils() {
         return new ConnectivityUtils(application);
+    }
+
+    @Provides @Singleton public WebLinkMapper webLinkMapper(){
+        return new WebLinkMapper();
     }
 }

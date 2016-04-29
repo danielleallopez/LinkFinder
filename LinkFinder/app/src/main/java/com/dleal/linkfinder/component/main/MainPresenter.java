@@ -1,11 +1,12 @@
 package com.dleal.linkfinder.component.main;
 
 import com.dleal.linkfinder.component.base.Presenter;
+import com.dleal.linkfinder.model.WebLink;
+import com.dleal.linkfinder.model.Website;
 import com.dleal.linkfinder.usecase.FindLinksInWebsite;
 import com.dleal.linkfinder.utils.ConnectivityUtils;
 import com.dleal.linkfinder.utils.ValidationUtils;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -19,6 +20,8 @@ public class MainPresenter extends Presenter<MainView> {
     private FindLinksInWebsite findLinksInWebsite;
 
     private MainView view;
+
+    private String url;
 
     @Inject
     public MainPresenter(ConnectivityUtils connectivityUtils, FindLinksInWebsite findLinksInWebsite) {
@@ -39,22 +42,23 @@ public class MainPresenter extends Presenter<MainView> {
         startLinkSearch();
     }
 
-    public void onHTMLAvailable(String html){
+    public void onHTMLAvailable(String html) {
         findLinksInWebsite.getLinks(html, linksCallback);
     }
 
     private FindLinksInWebsite.Callback linksCallback = new FindLinksInWebsite.Callback() {
-        @Override public void onSuccess(Collection<String> links) {
+        @Override public void onSuccess(Collection<WebLink> links) {
+            Website website = new Website(url, links);
             view.hideProgress();
             if (links.size() > 0)
-                view.navigateToLinkList((Serializable) links);
+                view.navigateToLinkList(website);
             else
                 view.showNoLinksError();
         }
     };
 
     private void startLinkSearch() {
-        String url = view.getWebsiteURL();
+        url = view.getWebsiteURL();
         switch (ValidationUtils.checkURLValidity(url)) {
             case EMPTY:
                 view.showEmptyWebsiteURLError();

@@ -3,6 +3,8 @@ package com.dleal.linkfinder.usecase;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.dleal.linkfinder.model.WebLink;
+import com.dleal.linkfinder.model.mapper.WebLinkMapper;
 import com.dleal.linkfinder.utils.ValidationUtils;
 
 import org.jsoup.Jsoup;
@@ -23,7 +25,12 @@ import static com.dleal.linkfinder.utils.StringValidity.VALID;
  */
 public class FindLinksInWebsite {
 
-    @Inject public FindLinksInWebsite() {}
+    private WebLinkMapper mapper;
+
+    @Inject
+    public FindLinksInWebsite(WebLinkMapper mapper) {
+        this.mapper = mapper;
+    }
 
     private final String LINK_A = "a";
     private final String HREF = "href";
@@ -43,11 +50,12 @@ public class FindLinksInWebsite {
             if (ValidationUtils.checkURLValidity(href) == VALID)
                 links.add(href);
         }
-        new Handler(Looper.getMainLooper()).post(() -> callback.onSuccess(links));
+        Collection linkCollection = mapper.transform(links);
+        new Handler(Looper.getMainLooper()).post(() -> callback.onSuccess(linkCollection));
     }
 
     public interface Callback {
 
-        void onSuccess(Collection<String> links);
+        void onSuccess(Collection<WebLink> links);
     }
 }
