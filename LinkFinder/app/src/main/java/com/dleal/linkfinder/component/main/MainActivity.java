@@ -5,6 +5,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.dleal.linkfinder.R;
 import com.dleal.linkfinder.component.base.BaseActivity;
@@ -17,6 +19,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.dleal.linkfinder.utils.Constants.JAVASCRIPT_INTERFACE;
+
 /**
  * Created by Daniel Leal on 09/03/16.
  */
@@ -25,6 +29,7 @@ public class MainActivity extends BaseActivity implements MainView {
     @Bind(R.id.edit_website_url) TextInputEditText editLoginUser;
     @Bind(R.id.input_layout_website) TextInputLayout inputLayoutWebsite;
     @Bind(R.id.parent_main) ViewGroup parentMain;
+    @Bind(R.id.webview) WebView browser;
 
     @Inject MainPresenter presenter;
 
@@ -33,6 +38,8 @@ public class MainActivity extends BaseActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        initBrowser();
 
         initializeDagger();
         initializePresenter(presenter, this);
@@ -66,6 +73,11 @@ public class MainActivity extends BaseActivity implements MainView {
         //TODO
     }
 
+    @Override public void loadUrl(String url) {
+        initWebClient();
+        browser.loadUrl(url);
+    }
+
     @Override public void showError(String message) {
         Snackbar.make(parentMain, message, Snackbar.LENGTH_SHORT).show();
     }
@@ -74,5 +86,15 @@ public class MainActivity extends BaseActivity implements MainView {
 
     private void initializeDagger() {
         super.getApplicationComponent().inject(this);
+    }
+
+    private void initBrowser() {
+        browser.getSettings().setJavaScriptEnabled(true);
+        browser.addJavascriptInterface(new JavaScriptInterface(html -> presenter.onHTMLAvailable(html)), JAVASCRIPT_INTERFACE);
+    }
+
+    private void initWebClient(){
+        WebViewClient webViewClient = new CustomWebClient();
+        browser.setWebViewClient(webViewClient);
     }
 }

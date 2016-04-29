@@ -1,7 +1,6 @@
 package com.dleal.linkfinder.di.modules;
 
 import com.dleal.linkfinder.component.LinkFinderApplication;
-import com.dleal.linkfinder.repository.DataRepository;
 import com.dleal.linkfinder.utils.ConnectivityUtils;
 
 import javax.inject.Singleton;
@@ -21,11 +20,7 @@ public class ApplicationModule {
         this.application = application;
     }
 
-    @Provides @Singleton public DataRepository dataRepository(){
-        return new DataRepository();
-    }
-
-    @Provides @Singleton public ConnectivityUtils connectivityUtils(){
+    @Provides @Singleton public ConnectivityUtils connectivityUtils() {
         return new ConnectivityUtils(application);
     }
 }

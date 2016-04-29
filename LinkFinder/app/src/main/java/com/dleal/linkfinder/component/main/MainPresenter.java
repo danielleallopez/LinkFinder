@@ -1,17 +1,11 @@
 package com.dleal.linkfinder.component.main;
 
 import com.dleal.linkfinder.component.base.Presenter;
-import com.dleal.linkfinder.repository.responses.ErrorBundle;
 import com.dleal.linkfinder.usecase.FindLinksInWebsite;
-import com.dleal.linkfinder.usecase.GetWebsiteContent;
 import com.dleal.linkfinder.utils.ConnectivityUtils;
 import com.dleal.linkfinder.utils.ValidationUtils;
 
-import org.jsoup.nodes.Document;
-
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -22,15 +16,13 @@ import javax.inject.Inject;
 public class MainPresenter extends Presenter<MainView> {
 
     private ConnectivityUtils connectivityUtils;
-    private GetWebsiteContent getWebsiteContent;
     private FindLinksInWebsite findLinksInWebsite;
 
     private MainView view;
 
     @Inject
-    public MainPresenter(ConnectivityUtils connectivityUtils, GetWebsiteContent getWebsiteContent, FindLinksInWebsite findLinksInWebsite) {
+    public MainPresenter(ConnectivityUtils connectivityUtils, FindLinksInWebsite findLinksInWebsite) {
         this.connectivityUtils = connectivityUtils;
-        this.getWebsiteContent = getWebsiteContent;
         this.findLinksInWebsite = findLinksInWebsite;
     }
 
@@ -47,16 +39,9 @@ public class MainPresenter extends Presenter<MainView> {
         startLinkSearch();
     }
 
-    private GetWebsiteContent.Callback callback = new GetWebsiteContent.Callback() {
-        @Override public void onSuccess(Document document) {
-            findLinksInWebsite.getLinks(document, linksCallback);
-        }
-
-        @Override public void onError(ErrorBundle errorBundle) {
-            view.hideProgress();
-            view.showError(errorBundle.getMessage());
-        }
-    };
+    public void onHTMLAvailable(String html){
+        findLinksInWebsite.getLinks(html, linksCallback);
+    }
 
     private FindLinksInWebsite.Callback linksCallback = new FindLinksInWebsite.Callback() {
         @Override public void onSuccess(Collection<String> links) {
@@ -75,7 +60,6 @@ public class MainPresenter extends Presenter<MainView> {
                 view.showEmptyWebsiteURLError();
                 return;
             case NOT_VALID:
-
                 view.showWrongWebsiteURLFormatError();
                 return;
             case VALID:
@@ -84,11 +68,7 @@ public class MainPresenter extends Presenter<MainView> {
                     return;
                 }
                 view.showProgress(null);
-                try {
-                    getWebsiteContent.getWebsiteData(new URL(url), callback);
-                } catch (MalformedURLException e) {
-                    view.showWrongWebsiteURLFormatError();
-                }
+                view.loadUrl(url);
         }
     }
 }
