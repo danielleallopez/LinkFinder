@@ -36,16 +36,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    protected void initializePresenter(Presenter<Presenter.View> presenter, Presenter.View view) {
+    protected void initializePresenter(Presenter presenter, Presenter.View view) {
         presenter.setView(view);
         presenter.onCreate();
     }
 
-    protected void showProgress(String message) {
+    public void showProgress(String message) {
         ProgressDialogManager.showProgressDialog(this, message != null ? message : getString(R.string.loading));
     }
 
-    protected void hideProgress() {
+    public void hideProgress() {
         ProgressDialogManager.hideProgressDialog();
     }
 }

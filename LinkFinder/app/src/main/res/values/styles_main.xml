@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="mainTitle" parent="match_width">
+        <item name="android:textSize">@dimen/main_title_text_size</item>
+        <item name="android:textColor">@color/black</item>
+
+        <item name="android:layout_marginTop">@dimen/main_title_top_margin</item>
+        <item name="android:layout_marginBottom">@dimen/main_title_bottom_margin</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="editWebsiteContainer" parent="match_width">
+        <item name="android:layout_marginLeft">@dimen/edit_website_container_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/edit_website_container_horizontal_margin</item>
+    </style>
+
+    <style name="editWebsite" parent="match_width">
+        <item name="android:textSize">@dimen/edit_website_text_size</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginBottom">@dimen/edit_website_bottom_margin</item>
+    </style>
+</resources>
