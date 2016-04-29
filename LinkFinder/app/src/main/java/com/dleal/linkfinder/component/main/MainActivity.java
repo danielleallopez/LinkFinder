@@ -2,6 +2,7 @@ package com.dleal.linkfinder.component.main;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.view.ViewGroup;
 
 import com.dleal.linkfinder.R;
@@ -20,7 +21,8 @@ import butterknife.OnClick;
  */
 public class MainActivity extends BaseActivity implements MainView {
 
-    @Bind(R.id.edit_login_user) TextInputEditText editLoginUser;
+    @Bind(R.id.edit_website_url) TextInputEditText editLoginUser;
+    @Bind(R.id.input_layout_website) TextInputLayout inputLayoutWebsite;
     @Bind(R.id.parent_main) ViewGroup parentMain;
 
     @Inject MainPresenter presenter;
@@ -47,7 +49,7 @@ public class MainActivity extends BaseActivity implements MainView {
         editLoginUser.setError(getString(R.string.error_website_wrong_format));
     }
 
-    @OnClick(R.id.fab) public void onClick() {presenter.onDownloadLinksClick();}
+    @OnClick(R.id.btn_main_search) public void onClick() {presenter.onDownloadLinksClick();}
 
     private void initializeDagger() {
         super.getApplicationComponent().inject(this);

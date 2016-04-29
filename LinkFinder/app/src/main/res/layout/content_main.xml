@@ -4,19 +4,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
 
-    <TextView
-        style="@style/mainTitle"
-        android:text="@string/main_text_website_title"/>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_layout_user"
-        style="@style/editWebsiteContainer">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/edit_login_user"
-            style="@style/editWebsite"
-            android:hint="@string/main_edit_website_hint"
-            android:text="@string/default_website"/>
-
-    </android.support.design.widget.TextInputLayout>
+    <include layout="@layout/view_main_common"/>
 </LinearLayout>

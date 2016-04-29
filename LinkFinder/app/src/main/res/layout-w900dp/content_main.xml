@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -11,23 +10,10 @@
               android:showDividers="middle"
               tools:context=".component.main.MainActivity">
 
-    <!--
-    This layout is a two-pane layout for the Items
-    master/detail flow.
-    
-    -->
-
-    <android.support.v7.widget.RecyclerView android:id="@+id/item_list"
-                                            android:name="com.dleal.linkfinder.ItemListFragment"
-                                            xmlns:android="http://schemas.android.com/apk/res/android"
-                                            xmlns:tools="http://schemas.android.com/tools"
-                                            android:layout_width="@dimen/item_width"
-                                            android:layout_height="match_parent"
-                                            android:layout_marginLeft="16dp"
-                                            android:layout_marginRight="16dp"
-                                            app:layoutManager="LinearLayoutManager"
-                                            tools:context=".component.main.MainActivity"
-                                            tools:listitem="@layout/item_list_content"/>
+    <include
+        layout="@layout/view_main_common"
+        android:layout_width="@dimen/item_width"
+        android:layout_height="match_parent"/>
 
     <FrameLayout
         android:id="@+id/item_detail_container"
