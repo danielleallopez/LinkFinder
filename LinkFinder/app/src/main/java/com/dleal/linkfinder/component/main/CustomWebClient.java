@@ -11,7 +11,6 @@ import static com.dleal.linkfinder.utils.Constants.JAVASCRIPT_GET_HTML;
  */
 public class CustomWebClient extends WebViewClient {
     private boolean isRedirected;
-    private boolean isFinished;
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -27,9 +26,8 @@ public class CustomWebClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        if (!isRedirected && !isFinished) {
+        if (!isRedirected) {
             view.loadUrl(JAVASCRIPT_GET_HTML);
-            isFinished = true;
         }
     }
 }

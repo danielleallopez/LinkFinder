@@ -17,15 +17,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import static com.dleal.linkfinder.utils.Constants.CALLBACK_TIMEOUT;
 import static com.dleal.linkfinder.utils.StringValidity.VALID;
 
 /**
  * Created by Daniel Leal on 29/04/16.
  */
+@Singleton
 public class FindLinksInWebsite {
 
     private WebLinkMapper mapper;
+    private String html;
+    private Callback dataAvailableCallback;
+    private Collection<WebLink> linkCollection;
+
+    private Handler callbackHandler = new Handler(Looper.getMainLooper());
 
     @Inject
     public FindLinksInWebsite(WebLinkMapper mapper) {
@@ -36,13 +44,16 @@ public class FindLinksInWebsite {
     private final String HREF = "href";
 
     public void getLinks(String html, final Callback callback) {
-        new Thread(() -> {
-            Document document = Jsoup.parse(html);
-            searchLinksInDocument(document, callback);
-        }).start();
+        this.html = html;
+        this.dataAvailableCallback = callback;
+
+        //Sometimes we get a first response which is not valid, because website has not loaded properly.
+        //If a new request is received before one second, we assume it is a redirection, and abort previous response
+        callbackHandler.removeCallbacks(postCallback);
+        new Thread(searchLinks).start();
     }
 
-    private void searchLinksInDocument(Document document, final Callback callback) {
+    private void searchLinksInDocument(Document document) {
         Elements resultLinks = document.select(LINK_A);
         Set<String> links = new HashSet<>();
         for (Element link : resultLinks) {
@@ -50,9 +61,24 @@ public class FindLinksInWebsite {
             if (ValidationUtils.checkURLValidity(href) == VALID)
                 links.add(href);
         }
-        Collection linkCollection = mapper.transform(links);
-        new Handler(Looper.getMainLooper()).post(() -> callback.onSuccess(linkCollection));
+        linkCollection = mapper.transform(links);
+
+        //We set a delay if we get no links, because we assume it is due to a slow web loading
+        callbackHandler.postDelayed(postCallback, linkCollection.size() > 0 ? 0 : CALLBACK_TIMEOUT);
     }
+
+    private Runnable searchLinks = new Runnable() {
+        @Override public void run() {
+            Document document = Jsoup.parse(html);
+            searchLinksInDocument(document);
+        }
+    };
+
+    private Runnable postCallback = new Runnable() {
+        @Override public void run() {
+            dataAvailableCallback.onSuccess(linkCollection);
+        }
+    };
 
     public interface Callback {
 

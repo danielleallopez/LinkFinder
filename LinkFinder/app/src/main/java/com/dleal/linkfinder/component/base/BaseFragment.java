@@ -11,7 +11,7 @@ import com.dleal.linkfinder.utils.ProgressDialogManager;
  */
 public abstract class BaseFragment extends Fragment {
 
-    protected void initializePresenter(Presenter<Presenter.View> presenter, Presenter.View view) {
+    protected void initializePresenter(Presenter presenter, Presenter.View view) {
         presenter.setView(view);
         presenter.onCreate();
     }

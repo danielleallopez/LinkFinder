@@ -11,6 +11,9 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
+import static com.dleal.linkfinder.utils.Constants.CONNECTION_TIMEOUT;
+import static com.dleal.linkfinder.utils.Constants.CONNECTION_TIMEOUT_NS;
+
 /**
  * Created by Daniel Leal on 29/04/16.
  */

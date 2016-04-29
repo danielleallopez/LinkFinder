@@ -10,6 +10,8 @@ import android.webkit.WebViewClient;
 
 import com.dleal.linkfinder.R;
 import com.dleal.linkfinder.component.base.BaseActivity;
+import com.dleal.linkfinder.component.link_list.LinkListActivity;
+import com.dleal.linkfinder.component.link_list.LinkListFragment;
 
 import java.io.Serializable;
 
@@ -33,11 +35,14 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Inject MainPresenter presenter;
 
+    private boolean isTwoPane;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        isTwoPane = ButterKnife.findById(this, R.id.item_detail_container) != null;
 
         initBrowser();
 
@@ -69,10 +74,34 @@ public class MainActivity extends BaseActivity implements MainView {
                 .show();
     }
 
-    @Override public void navigateToLinkList(Serializable data) {
-        //TODO
+    @Override public void showTimeoutError() {
+        Snackbar.make(parentMain, R.string.error_timeout, Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry, v -> {
+                    presenter.onRetryConnectionClick();
+                })
+                .show();
     }
 
+    /**
+     * Loads link list view with given data
+     *
+     * @param data Contains the {@see com.dleal.linkfinder.model.Website} retrieved in this view
+     */
+    @Override public void navigateToLinkList(Serializable data) {
+        //If there's enough space, show fragment
+        if (isTwoPane) {
+            LinkListFragment fragment = LinkListFragment.getInstance(data);
+            showFragment(R.id.item_detail_container, fragment);
+        } else {  //If not, open new activity
+            LinkListActivity.open(this, data);
+        }
+    }
+
+    /**
+     * Loads website from given url
+     *
+     * @param url
+     */
     @Override public void loadUrl(String url) {
         initWebClient();
         browser.loadUrl(url);
@@ -93,7 +122,7 @@ public class MainActivity extends BaseActivity implements MainView {
         browser.addJavascriptInterface(new JavaScriptInterface(html -> presenter.onHTMLAvailable(html)), JAVASCRIPT_INTERFACE);
     }
 
-    private void initWebClient(){
+    private void initWebClient() {
         WebViewClient webViewClient = new CustomWebClient();
         browser.setWebViewClient(webViewClient);
     }

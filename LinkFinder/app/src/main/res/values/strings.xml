@@ -14,4 +14,9 @@
     <string name="error_website_wrong_format">Website url not valid</string>
     <string name="error_main_no_links_found">No links found!</string>
     <string name="error_no_internet">No internet connection available</string>
+    <string name="error_timeout">Cannot connect to website</string>
+
+    <!-- Link list -->
+    <string name="link_list_img_description">Indicates wether the link is http or https</string>
+    <string name="link_list_subtitle_format">%d links have been found!</string>
 </resources>

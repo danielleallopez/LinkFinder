@@ -3,15 +3,25 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="item_width">350dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
 
-    <!-- Main activity -->
+    <!-- Main view -->
     <dimen name="main_title_text_size">20sp</dimen>
     <dimen name="main_title_top_margin">20dp</dimen>
     <dimen name="main_title_bottom_margin">20dp</dimen>
-    
+
     <dimen name="edit_website_container_horizontal_margin">40dp</dimen>
 
     <dimen name="edit_website_text_size">16sp</dimen>
     <dimen name="edit_website_bottom_margin">20dp</dimen>
+
+    <!-- Link list view -->
+    <dimen name="link_list_title_vertical_margin">30dp</dimen>
+    <dimen name="link_list_title_text_size">20sp</dimen>
+
+    <dimen name="link_list_subtitle_bottom_margin">7dp</dimen>
+    <dimen name="link_list_subtitle_left_margin">20dp</dimen>
+
+    <dimen name="link_list_item_vertical_margin">5dp</dimen>
+    <dimen name="link_list_item_horizontal_margin">5dp</dimen>
+
 </resources>

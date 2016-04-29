@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="link_list_title" parent="wrap">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/link_list_title_text_size</item>
+        <item name="android:layout_marginTop">@dimen/link_list_title_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/link_list_title_vertical_margin</item>
+    </style>
+
+    <style name="link_list_subtitle" parent="wrap">
+        <item name="android:layout_marginBottom">@dimen/link_list_subtitle_bottom_margin</item>
+        <item name="android:layout_marginLeft">@dimen/link_list_subtitle_left_margin</item>
+    </style>
+
+    <style name="link_list_img" parent="wrap">
+        <item name="android:layout_marginTop">@dimen/link_list_item_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/link_list_item_vertical_margin</item>
+        <item name="android:layout_marginLeft">@dimen/link_list_item_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/link_list_item_horizontal_margin</item>
+    </style>
+</resources>
