@@ -3,6 +3,7 @@
     <string name="title_item_detail">Item Detail</string>
 
     <string name="loading">Loading…</string>
+    <string name="retry">Retry</string>
 
     <string name="main_edit_website_hint">Website</string>
     <string name="main_text_website_title">Enter website to crawl!</string>
@@ -11,4 +12,6 @@
     <!-- Error strings -->
     <string name="error_website_empty">Website url cannot be empty</string>
     <string name="error_website_wrong_format">Website url not valid</string>
+    <string name="error_main_no_links_found">No links found!</string>
+    <string name="error_no_internet">No internet connection available</string>
 </resources>

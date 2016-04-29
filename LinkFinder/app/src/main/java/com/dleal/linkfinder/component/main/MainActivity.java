@@ -1,6 +1,7 @@
 package com.dleal.linkfinder.component.main;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.ViewGroup;
@@ -47,6 +48,26 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override public void showWrongWebsiteURLFormatError() {
         inputLayoutWebsite.setError(getString(R.string.error_website_wrong_format));
+    }
+
+    @Override public void showNoLinksError() {
+        Snackbar.make(parentMain, R.string.error_main_no_links_found, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override public void showNoInternetError() {
+        Snackbar.make(parentMain, R.string.error_no_internet, Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry, v -> {
+                    presenter.onRetryConnectionClick();
+                })
+                .show();
+    }
+
+    @Override public void navigateToLinkList(Serializable data) {
+        //TODO
+    }
+
+    @Override public void showError(String message) {
+        Snackbar.make(parentMain, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.btn_main_search) public void onClick() {presenter.onDownloadLinksClick();}
