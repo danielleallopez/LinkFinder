@@ -10,10 +10,13 @@
               android:showDividers="middle"
               tools:context=".component.main.MainActivity">
 
-    <include
-        layout="@layout/view_main_common"
+    <LinearLayout
         android:layout_width="@dimen/item_width"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_main_common"/>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/item_detail_container"
