@@ -53,6 +53,10 @@ public class FindLinksInWebsite {
         new Thread(searchLinks).start();
     }
 
+    public void cancel(){
+        callbackHandler.removeCallbacks(postCallback);
+    }
+
     private void searchLinksInDocument(Document document) {
         Elements resultLinks = document.select(LINK_A);
         Set<String> links = new HashSet<>();

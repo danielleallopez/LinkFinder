@@ -1,6 +1,7 @@
 package com.dleal.linkfinder.component.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -36,6 +37,15 @@ public class MainActivity extends BaseActivity implements MainView {
     @Inject MainPresenter presenter;
 
     private boolean isTwoPane;
+
+    private Handler alarmHandler = new Handler();
+
+    private Runnable alarm = new Runnable() {
+        @Override public void run() {
+            presenter.onAlarm();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +90,14 @@ public class MainActivity extends BaseActivity implements MainView {
                     presenter.onRetryConnectionClick();
                 })
                 .show();
+    }
+
+    @Override public void setAlarm(int time) {
+        alarmHandler.postDelayed(alarm, time);
+    }
+
+    @Override public void cancelAlarm() {
+        alarmHandler.removeCallbacks(alarm);
     }
 
     /**

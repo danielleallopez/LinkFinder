@@ -26,4 +26,8 @@ public interface MainView extends Presenter.View, ProgressView, ErrorView {
     void navigateToLinkList(Serializable data);
 
     void loadUrl(String url);
+
+    void setAlarm(int time);
+
+    void cancelAlarm();
 }

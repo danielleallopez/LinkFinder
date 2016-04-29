@@ -26,6 +26,8 @@ public class MainPresenter extends Presenter<MainView> {
 
     private String url;
 
+    private long requestTime = -1;
+
     @Inject
     public MainPresenter(ConnectivityUtils connectivityUtils, FindLinksInWebsite findLinksInWebsite) {
         this.connectivityUtils = connectivityUtils;
@@ -49,18 +51,30 @@ public class MainPresenter extends Presenter<MainView> {
         findLinksInWebsite.getLinks(html, linksCallback);
     }
 
+    public void onAlarm() {
+        findLinksInWebsite.cancel();
+        requestTime = -1;
+        view.hideProgress();
+        view.showTimeoutError();
+    }
+
     private FindLinksInWebsite.Callback linksCallback = new FindLinksInWebsite.Callback() {
         @Override public void onSuccess(Collection<WebLink> links) {
             Website website = new Website(url, links);
             view.hideProgress();
-            if (links.size() > 0)
-                view.navigateToLinkList(website);
-            else
-                view.showNoLinksError();
+            if (!hasTimeoutPassed()) {
+                view.cancelAlarm();
+                if (links.size() > 0)
+                    view.navigateToLinkList(website);
+                else
+                    view.showNoLinksError();
+            }
         }
     };
 
     private void startLinkSearch() {
+        requestTime = System.nanoTime();
+
         url = view.getWebsiteURL();
         switch (ValidationUtils.checkURLValidity(url)) {
             case EMPTY:
@@ -74,8 +88,14 @@ public class MainPresenter extends Presenter<MainView> {
                     view.showNoInternetError();
                     return;
                 }
+                view.setAlarm(CONNECTION_TIMEOUT);
                 view.showProgress(null);
                 view.loadUrl(url);
         }
+    }
+
+    private boolean hasTimeoutPassed() {
+        long current = System.nanoTime();
+        return current - requestTime >= CONNECTION_TIMEOUT_NS;
     }
 }
