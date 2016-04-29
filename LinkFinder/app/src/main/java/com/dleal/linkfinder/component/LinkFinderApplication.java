@@ -1,6 +1,7 @@
 package com.dleal.linkfinder.component;
 
 import android.app.Application;
+import android.support.annotation.VisibleForTesting;
 
 import com.dleal.linkfinder.di.components.ApplicationComponent;
 import com.dleal.linkfinder.di.components.DaggerApplicationComponent;
@@ -26,5 +27,13 @@ public class LinkFinderApplication extends Application {
 
     public ApplicationComponent getApplicationComponent() {
         return this.applicationComponent;
+    }
+
+    @VisibleForTesting public void setComponent(ApplicationComponent applicationComponent) {
+        this.applicationComponent = applicationComponent;
+    }
+
+    @VisibleForTesting public String getStringRes(int stringRes) {
+        return getString(stringRes);
     }
 }
