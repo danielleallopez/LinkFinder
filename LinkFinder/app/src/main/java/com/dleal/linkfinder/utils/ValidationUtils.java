@@ -12,15 +12,12 @@ import static com.dleal.linkfinder.utils.StringValidity.VALID;
  */
 public class ValidationUtils {
 
-    public static StringValidity isStringEmpty(String s) {
-        if (s == null || s.length() == 0)
-            return EMPTY;
-        else
-            return VALID;
+    public static boolean isStringEmpty(String s) {
+        return s == null || s.length() == 0;
     }
 
     public static StringValidity checkURLValidity(String url) {
-        StringValidity validity = isStringEmpty(url);
+        StringValidity validity = isStringEmpty(url) ? EMPTY : VALID;
         if (validity != VALID)
             return validity;
         else {
