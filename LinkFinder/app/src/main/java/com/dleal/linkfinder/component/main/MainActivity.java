@@ -42,11 +42,11 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override public void showEmptyWebsiteURLError() {
-        editLoginUser.setError(getString(R.string.error_website_empty));
+        inputLayoutWebsite.setError(getString(R.string.error_website_empty));
     }
 
     @Override public void showWrongWebsiteURLFormatError() {
-        editLoginUser.setError(getString(R.string.error_website_wrong_format));
+        inputLayoutWebsite.setError(getString(R.string.error_website_wrong_format));
     }
 
     @OnClick(R.id.btn_main_search) public void onClick() {presenter.onDownloadLinksClick();}
