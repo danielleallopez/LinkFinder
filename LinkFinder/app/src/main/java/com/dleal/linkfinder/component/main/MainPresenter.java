@@ -13,6 +13,8 @@ import javax.inject.Inject;
 
 import static com.dleal.linkfinder.utils.Constants.CONNECTION_TIMEOUT;
 import static com.dleal.linkfinder.utils.Constants.CONNECTION_TIMEOUT_NS;
+import static com.dleal.linkfinder.utils.Constants.HTTP;
+import static com.dleal.linkfinder.utils.Constants.HTTPS;
 
 /**
  * Created by Daniel Leal on 29/04/16.
@@ -75,7 +77,7 @@ public class MainPresenter extends Presenter<MainView> {
     private void startLinkSearch() {
         requestTime = System.nanoTime();
 
-        url = view.getWebsiteURL();
+        url = addProtocolToUrlIfNecessary(view.getWebsiteURL());
         switch (ValidationUtils.checkURLValidity(url)) {
             case EMPTY:
                 view.showEmptyWebsiteURLError();
@@ -97,5 +99,11 @@ public class MainPresenter extends Presenter<MainView> {
     private boolean hasTimeoutPassed() {
         long current = System.nanoTime();
         return current - requestTime >= CONNECTION_TIMEOUT_NS;
+    }
+
+    private String addProtocolToUrlIfNecessary(String url) {
+        if (url != null && (!url.startsWith(HTTP) || !url.startsWith(HTTPS)))
+            url = HTTP + url;
+        return url;
     }
 }

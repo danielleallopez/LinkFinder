@@ -14,7 +14,8 @@ public class Constants {
     public static final String JAVASCRIPT_GET_HTML = "javascript:" + JAVASCRIPT_INTERFACE +
             ".processHTML(document.documentElement.outerHTML);";
 
-    public static final String HTTPS = "https";
+    public static final String HTTP = "http://";
+    public static final String HTTPS = "https://";
 
     public static final String BUNDLE_DATA = "data";
 
